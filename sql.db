@@ -1,0 +1,68 @@
+-- Create database
+CREATE DATABASE IF NOT EXISTS cyferra26_db;
+USE cyferra26_db;
+
+-- Main registrations table
+CREATE TABLE IF NOT EXISTS registrations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    registration_id VARCHAR(20) UNIQUE NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    gender ENUM('male', 'female', 'other') NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    mobile VARCHAR(15) NOT NULL,
+    whatsapp VARCHAR(15) NOT NULL,
+    year_of_study VARCHAR(10) NOT NULL,
+    college_name VARCHAR(200) NOT NULL,
+    department VARCHAR(100) NOT NULL,
+    food_preference ENUM('veg', 'non-veg') NOT NULL,
+    transaction_id VARCHAR(100),
+    payment_status ENUM('pending', 'verified', 'rejected') DEFAULT 'pending',
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ip_address VARCHAR(45),
+    INDEX idx_email (email),
+    INDEX idx_registration_id (registration_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table for storing selected events
+CREATE TABLE IF NOT EXISTS registration_events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    registration_id VARCHAR(20) NOT NULL,
+    event_type ENUM('technical', 'non-technical') NOT NULL,
+    event_name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (registration_id) REFERENCES registrations(registration_id) ON DELETE CASCADE,
+    INDEX idx_registration (registration_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table for payment screenshots
+CREATE TABLE IF NOT EXISTS payment_screenshots (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    registration_id VARCHAR(20) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(500) NOT NULL,
+    file_size INT NOT NULL,
+    file_type VARCHAR(50) NOT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (registration_id) REFERENCES registrations(registration_id) ON DELETE CASCADE,
+    UNIQUE KEY unique_registration (registration_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Admin users table (optional, for payment verification)
+CREATE TABLE IF NOT EXISTS admin_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Audit log table (optional, for tracking changes)
+CREATE TABLE IF NOT EXISTS audit_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    registration_id VARCHAR(20),
+    action VARCHAR(50),
+    performed_by VARCHAR(50),
+    details TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_registration (registration_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

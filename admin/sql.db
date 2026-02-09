@@ -1,0 +1,55 @@
+-- Create admin database
+CREATE DATABASE IF NOT EXISTS cyferra26_admin;
+USE cyferra26_admin;
+
+-- Admin users table (core table)
+CREATE TABLE IF NOT EXISTS admin_users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    role ENUM('superadmin', 'admin', 'viewer') DEFAULT 'admin',
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    last_login DATETIME NULL,
+    last_login_ip VARCHAR(45) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_username (username),
+    INDEX idx_status (status)
+);
+
+-- Admin sessions table
+CREATE TABLE IF NOT EXISTS admin_sessions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    session_token VARCHAR(128) UNIQUE NOT NULL,
+    ip_address VARCHAR(45) NOT NULL,
+    user_agent TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at DATETIME NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES admin_users(id) ON DELETE CASCADE,
+    INDEX idx_token (session_token),
+    INDEX idx_user (user_id),
+    INDEX idx_expires (expires_at)
+);
+
+-- Admin activity logs
+CREATE TABLE IF NOT EXISTS admin_activity_logs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    action_type VARCHAR(50) NOT NULL,
+    description TEXT,
+    ip_address VARCHAR(45) NOT NULL,
+    user_agent TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES admin_users(id) ON DELETE CASCADE,
+    INDEX idx_user_action (user_id, action_type),
+    INDEX idx_created (created_at)
+);
+
+-- Insert default admin user
+-- Default password: Admin@1234
+-- Run this after creating the tables:
+-- INSERT INTO admin_users (username, password_hash, full_name, email, role) 
+-- VALUES ('admin', '$2y$10$YourHashedPasswordHere', 'System Admin', 'admin@cyferra26.com', 'superadmin');

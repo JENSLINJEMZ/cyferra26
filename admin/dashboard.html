@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | CYFERRA26</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #00a8cc;
+            --secondary: #b300ff;
+            --secondary-dark: #8a00cc;
+            --dark-bg: #0a0a0f;
+            --dark-surface: #151522;
+            --darker-surface: #101018;
+            --card-bg: #1a1a2e;
+            --glass: rgba(255, 255, 255, 0.05);
+            --success: #00ff88;
+            --success-dark: #00cc6a;
+            --danger: #ff4444;
+            --danger-dark: #cc3636;
+            --warning: #ffaa00;
+            --warning-dark: #cc8800;
+            --info: #00b4ff;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --border-color: rgba(0, 212, 255, 0.1);
+            --gradient-primary: linear-gradient(135deg, #00d4ff, #b300ff);
+            --gradient-secondary: linear-gradient(135deg, #b300ff, #00d4ff);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--darker-surface);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        .logo-subtitle {
+            font-size: 0.85rem;
+            color: var(--primary);
+            opacity: 0.8;
+            margin-top: 5px;
+            letter-spacing: 2px;
+        }
+
+        /* Admin Info */
+        .admin-info {
+            background: var(--glass);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .admin-info h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .admin-info p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+
+        .admin-role {
+            display: inline-block;
+            padding: 3px 10px;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 5px;
+        }
+
+        /* Sidebar Menu */
+        .sidebar-menu {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover {
+            background: var(--glass);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--glass);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.1);
+        }
+
+        .sidebar-menu i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 68, 68, 0.2);
+            transform: translateX(-5px);
+        }
+
+        /* Mobile Toggle */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            background: var(--primary);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon.total { background: rgba(0, 212, 255, 0.1); color: var(--primary); }
+        .stat-icon.verified { background: rgba(0, 255, 136, 0.1); color: var(--success); }
+        .stat-icon.pending { background: rgba(255, 170, 0, 0.1); color: var(--warning); }
+        .stat-icon.rejected { background: rgba(255, 68, 68, 0.1); color: var(--danger); }
+
+        .stat-content h3 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .stat-content .count {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .trend-up { color: var(--success); }
+        .trend-down { color: var(--danger); }
+
+        /* Dashboard Sections */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Recent Registrations */
+        .section-card {
+            background: var(--dark-surface);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Table */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        thead {
+            background: var(--darker-surface);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        td {
+            padding: 15px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .badge.pending {
+            background: rgba(255, 170, 0, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+        }
+
+        .badge.verified {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .badge.rejected {
+            background: rgba(255, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-view:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-verify {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-verify:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-reject {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        .btn-reject:hover {
+            background: rgba(255, 68, 68, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Activity Timeline */
+        .activity-timeline {
+            padding: 20px 0;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            border-left: 2px solid var(--border-color);
+            margin-left: 10px;
+            position: relative;
+        }
+
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 20px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .activity-item.login { border-left-color: var(--success); }
+        .activity-item.login::before { background: var(--success); }
+        .activity-item.verify { border-left-color: var(--primary); }
+        .activity-item.reject { border-left-color: var(--danger); }
+        .activity-item.reject::before { background: var(--danger); }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .activity-item.login .activity-icon { background: rgba(0, 255, 136, 0.1); color: var(--success); }
+        .activity-item.verify .activity-icon { background: rgba(0, 212, 255, 0.1); color: var(--primary); }
+        .activity-item.reject .activity-icon { background: rgba(255, 68, 68, 0.1); color: var(--danger); }
+
+        .activity-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .activity-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 20px;
+            background: var(--dark-surface);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        select, input[type="date"] {
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, input[type="date"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+        }
+
+        .refresh-btn {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--dark-surface);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+        }
+
+        .proof-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 2px solid var(--border-color);
+            background: var(--darker-surface);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .modal-action-btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .modal-action-btn.verify {
+            background: var(--success);
+            color: var(--dark-bg);
+        }
+
+        .modal-action-btn.reject {
+            background: var(--danger);
+            color: white;
+        }
+
+        .modal-action-btn.cancel {
+            background: var(--glass);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1001;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .toast.info {
+            background: var(--primary);
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .loading i {
+            margin-right: 10px;
+            color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-toggle {
+                display: flex;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .refresh-btn {
+                margin-left: 0;
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-container">
+            <div class="logo">CYFERRA'26</div>
+            <div class="logo-subtitle">ADMIN DASHBOARD</div>
+        </div>
+
+        <div class="admin-info">
+            <div class="admin-avatar" id="adminAvatar">A</div>
+            <h3 id="adminName">Loading...</h3>
+            <p id="adminEmail">admin@cyferra26.com</p>
+            <span class="admin-role" id="adminRole">Admin</span>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Registrations</a></li>
+            <li><a href="#"><i class="fas fa-calendar-alt"></i> Events</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="#" class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Registration Management</h1>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search registrations...">
+                </div>
+                <button class="refresh-btn" onclick="loadDashboardData()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Registrations</h3>
+                    <div class="count" id="totalCount">0</div>
+                    <div class="stat-trend">
+                        <span class="trend-up"><i class="fas fa-arrow-up"></i> 12 today</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon verified">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Verified Payments</h3>
+                    <div class="count" id="verifiedCount">0</div>
+                    <div class="stat-trend">
+                        <span class="trend-up"><i class="fas fa-arrow-up"></i> 5 today</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Pending Review</h3>
+                    <div class="count" id="pendingCount">0</div>
+                    <div class="stat-trend">
+                        <span>Waiting action</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon rejected">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Rejected</h3>
+                    <div class="count" id="rejectedCount">0</div>
+                    <div class="stat-trend">
+                        <span class="trend-down"><i class="fas fa-arrow-down"></i> 2 today</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Recent Registrations -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2><i class="fas fa-history"></i> Recent Registrations</h2>
+                    <div class="section-actions">
+                        <select id="statusFilter" onchange="loadRegistrations()">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="verified">Verified</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <select id="dateFilter" onchange="loadRegistrations()">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Events</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationsTable">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="loading" id="tableLoading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading registrations...
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2><i class="fas fa-stream"></i> Recent Activity</h2>
+                </div>
+                
+                <div class="activity-timeline" id="activityTimeline">
+                    <!-- Activity items will be loaded here -->
+                </div>
+                
+                <div class="loading" id="activityLoading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading activity...
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Verification Queue -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2><i class="fas fa-check-circle"></i> Payment Verification Queue</h2>
+                <div class="section-actions">
+                    <span class="badge pending" id="queueCount">0 pending</span>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Transaction ID</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="verificationQueue">
+                        <!-- Queue items will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="empty-state" id="emptyQueue" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <h3>No pending verifications</h3>
+                <p>All payments have been verified</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Proof Modal -->
+    <div id="proofModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Payment Verification</h3>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="modalBody">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // Global variables
+        let currentRegistrations = [];
+        let debounceTimer;
+
+        // Initialize Particles
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 50 },
+                color: { value: '#00d4ff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                line_linked: { 
+                    enable: true, 
+                    distance: 150, 
+                    color: '#00d4ff', 
+                    opacity: 0.2 
+                },
+                move: { 
+                    enable: true, 
+                    speed: 1 
+                }
+            }
+        });
+
+        // Mobile sidebar toggle
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileToggle = document.getElementById('mobileToggle');
+            
+            if (window.innerWidth <= 1200 && 
+                !sidebar.contains(event.target) && 
+                !mobileToggle.contains(event.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Session management
+        async function checkAdminSession() {
+            const token = localStorage.getItem('admin_token');
+            const user = localStorage.getItem('admin_user');
+            
+            if (!token || !user) {
+                redirectToLogin();
+                return;
+            }
+            
+            try {
+                const response = await fetch('../api/verify-session.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `token=${token}`
+                });
+                
+                const result = await response.json();
+                
+                if (!result.authenticated) {
+                    logout();
+                    return;
+                }
+                
+                // Update user info
+                const userData = JSON.parse(user);
+                document.getElementById('adminName').textContent = userData.full_name;
+                document.getElementById('adminRole').textContent = userData.role;
+                document.getElementById('adminAvatar').textContent = userData.full_name.charAt(0);
+                document.getElementById('adminEmail').textContent = userData.email || 'admin@cyferra26.com';
+                
+                // Load dashboard data
+                loadDashboardData();
+                
+            } catch (error) {
+                console.error('Session check failed:', error);
+                showToast('Session error. Please login again.', 'error');
+                setTimeout(logout, 2000);
+            }
+        }
+
+        function redirectToLogin() {
+            window.location.href = 'login.html';
+        }
+
+        async function logout() {
+            const token = localStorage.getItem('admin_token');
+            
+            if (token) {
+                try {
+                    await fetch('../api/admin-logout.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `token=${token}`
+                    });
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+            
+            localStorage.removeItem('admin_token');
+            localStorage.removeItem('admin_user');
+            redirectToLogin();
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            await Promise.all([
+                loadRegistrations(),
+                loadActivity(),
+                loadVerificationQueue()
+            ]);
+        }
+
+        // Load registrations
+        async function loadRegistrations() {
+            const tableBody = document.getElementById('registrationsTable');
+            const loading = document.getElementById('tableLoading');
+            
+            tableBody.innerHTML = '';
+            loading.style.display = 'flex';
+            
+            try {
+                // Get filter values
+                const status = document.getElementById('statusFilter').value;
+                const dateFilter = document.getElementById('dateFilter').value;
+                const search = document.getElementById('searchInput').value;
+                
+                // Build query string
+                let url = `../api/get-registrations.php?`;
+                if (status) url += `status=${status}&`;
+                if (dateFilter) url += `period=${dateFilter}&`;
+                if (search) url += `search=${encodeURIComponent(search)}`;
+                
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentRegistrations = result.data;
+                    renderRegistrations(result.data);
+                    updateStats(result.data);
+                } else {
+                    showToast('Failed to load registrations', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error loading registrations:', error);
+                showToast('Connection error', 'error');
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function renderRegistrations(data) {
+            const tableBody = document.getElementById('registrationsTable');
+            
+            if (data.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-inbox" style="font-size: 2rem; color: var(--text-secondary); opacity: 0.5;"></i>
+                            <p style="margin-top: 10px; color: var(--text-secondary);">No registrations found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tableBody.innerHTML = data.map(reg => `
+                <tr>
+                    <td><strong>${reg.registration_id}</strong></td>
+                    <td>
+                        <div style="font-weight: 500;">${reg.full_name}</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">${reg.college}</div>
+                    </td>
+                    <td>${reg.email}</td>
+                    <td>
+                        <div style="font-size: 0.85rem;">${(reg.events || 'No events').split(',').slice(0, 2).join(', ')}</div>
+                        ${(reg.events || '').split(',').length > 2 ? 
+                          '<small style="color: var(--primary);">+' + ((reg.events || '').split(',').length - 2) + ' more</small>' : ''}
+                    </td>
+                    <td><span class="badge ${reg.payment_status}">${reg.payment_status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-view" onclick="viewRegistration('${reg.registration_id}')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            ${reg.payment_status === 'pending' ? `
+                                <button class="btn btn-verify" onclick="verifyPayment('${reg.registration_id}', 'verified')">
+                                    <i class="fas fa-check"></i> Verify
+                                </button>
+                                <button class="btn btn-reject" onclick="verifyPayment('${reg.registration_id}', 'rejected')">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Update stats
+        function updateStats(data) {
+            const total = data.length;
+            const verified = data.filter(r => r.payment_status === 'verified').length;
+            const pending = data.filter(r => r.payment_status === 'pending').length;
+            const rejected = data.filter(r => r.payment_status === 'rejected').length;
+            
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('verifiedCount').textContent = verified;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('rejectedCount').textContent = rejected;
+        }
+
+        // Load activity
+        async function loadActivity() {
+            const timeline = document.getElementById('activityTimeline');
+            const loading = document.getElementById('activityLoading');
+            
+            timeline.innerHTML = '';
+            loading.style.display = 'flex';
+            
+            try {
+                // Mock activity data - replace with actual API call
+                const activities = [
+                    {
+                        type: 'login',
+                        title: 'Admin logged in',
+                        description: 'System Administrator',
+                        time: 'Just now',
+                        icon: 'fas fa-sign-in-alt'
+                    },
+                    {
+                        type: 'verify',
+                        title: 'Payment verified',
+                        description: 'Registration CYF26-1234',
+                        time: '10 minutes ago',
+                        icon: 'fas fa-check-circle'
+                    },
+                    {
+                        type: 'reject',
+                        title: 'Payment rejected',
+                        description: 'Registration CYF26-5678',
+                        time: '1 hour ago',
+                        icon: 'fas fa-times-circle'
+                    },
+                    {
+                        type: 'login',
+                        title: 'New registration',
+                        description: 'John Doe registered for Code Gladiator',
+                        time: '2 hours ago',
+                        icon: 'fas fa-user-plus'
+                    }
+                ];
+                
+                timeline.innerHTML = activities.map(activity => `
+                    <div class="activity-item ${activity.type}">
+                        <div class="activity-icon">
+                            <i class="${activity.icon}"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>${activity.title}</h4>
+                            <p>${activity.description}</p>
+                            <div class="activity-time">${activity.time}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading activity:', error);
+                timeline.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">Failed to load activity</p>';
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Load verification queue
+        async function loadVerificationQueue() {
+            const queueBody = document.getElementById('verificationQueue');
+            const emptyQueue = document.getElementById('emptyQueue');
+            const queueCount = document.getElementById('queueCount');
+            
+            queueBody.innerHTML = '';
+            
+            try {
+                // Get pending registrations
+                const response = await fetch('../api/get-registrations.php?status=pending&limit=5');
+                const result = await response.json();
+                
+                if (result.success && result.data.length > 0) {
+                    emptyQueue.style.display = 'none';
+                    
+                    queueBody.innerHTML = result.data.map(reg => `
+                        <tr>
+                            <td><strong>${reg.registration_id}</strong></td>
+                            <td>${reg.full_name}</td>
+                            <td>₹199</td>
+                            <td>${reg.transaction_id || 'Not provided'}</td>
+                            <td>${new Date(reg.created_at || new Date()).toLocaleDateString()}</td>
+                            <td>
+                                <button class="btn btn-view" onclick="viewPayment('${reg.registration_id}')">
+                                    <i class="fas fa-eye"></i> Review
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                    
+                    queueCount.textContent = `${result.data.length} pending`;
+                    
+                } else {
+                    queueBody.innerHTML = '';
+                    emptyQueue.style.display = 'block';
+                    queueCount.textContent = '0 pending';
+                }
+                
+            } catch (error) {
+                console.error('Error loading queue:', error);
+                queueBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">Failed to load queue</td></tr>';
+            }
+        }
+
+        // View registration details
+        async function viewRegistration(regId) {
+            const registration = currentRegistrations.find(r => r.registration_id === regId);
+            if (!registration) {
+                showToast('Registration not found', 'error');
+                return;
+            }
+            
+            const modal = document.getElementById('proofModal');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = `
+                <div style="margin-bottom: 25px;">
+                    <h4 style="color: var(--primary); margin-bottom: 15px;">Registration Details</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <div>
+                            <p><strong>Full Name:</strong> ${registration.full_name}</p>
+                            <p><strong>Email:</strong> ${registration.email}</p>
+                            <p><strong>Mobile:</strong> ${registration.mobile}</p>
+                        </div>
+                        <div>
+                            <p><strong>College:</strong> ${registration.college}</p>
+                            <p><strong>Department:</strong> ${registration.department}</p>
+                            <p><strong>Year:</strong> ${registration.year}</p>
+                        </div>
+                    </div>
+                    <p><strong>Events:</strong> ${registration.events || 'No events selected'}</p>
+                    <p><strong>Food Preference:</strong> ${registration.food_preference || 'Not specified'}</p>
+                    <p><strong>Status:</strong> <span class="badge ${registration.payment_status}">${registration.payment_status}</span></p>
+                </div>
+                
+                ${registration.payment_status === 'pending' ? `
+                    <div class="modal-footer">
+                        <button class="modal-action-btn verify" onclick="verifyPayment('${regId}', 'verified')">
+                            <i class="fas fa-check-circle"></i> Verify Payment
+                        </button>
+                        <button class="modal-action-btn reject" onclick="verifyPayment('${regId}', 'rejected')">
+                            <i class="fas fa-times-circle"></i> Reject
+                        </button>
+                        <button class="modal-action-btn cancel" onclick="closeModal()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                ` : `
+                    <div class="modal-footer">
+                        <button class="modal-action-btn cancel" onclick="closeModal()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                `}
+            `;
+            
+            document.getElementById('modalTitle').textContent = `Registration: ${regId}`;
+            modal.style.display = 'flex';
+        }
+
+        // View payment proof
+        async function viewPayment(regId) {
+            const registration = currentRegistrations.find(r => r.registration_id === regId);
+            if (!registration) {
+                showToast('Registration not found', 'error');
+                return;
+            }
+            
+            const modal = document.getElementById('proofModal');
+            const modalBody = document.getElementById('modalBody');
+            
+            // Show loading
+            modalBody.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                    <p style="margin-top: 15px; color: var(--text-secondary);">Loading payment proof...</p>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+            document.getElementById('modalTitle').textContent = `Payment Proof: ${regId}`;
+            
+            try {
+                // Simulate loading payment proof
+                setTimeout(() => {
+                    modalBody.innerHTML = `
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="color: var(--primary); margin-bottom: 15px;">Payment Details</h4>
+                            <p><strong>Registration ID:</strong> ${regId}</p>
+                            <p><strong>Name:</strong> ${registration.full_name}</p>
+                            <p><strong>Amount:</strong> ₹199</p>
+                            <p><strong>Transaction ID:</strong> ${registration.transaction_id || 'Not provided'}</p>
+                            <p><strong>Status:</strong> <span class="badge ${registration.payment_status}">${registration.payment_status}</span></p>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px; text-align: center;">
+                            <div style="background: var(--darker-surface); border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                                <i class="fas fa-receipt" style="font-size: 4rem; color: var(--text-secondary); opacity: 0.5;"></i>
+                                <p style="margin-top: 10px; color: var(--text-secondary);">Payment screenshot would appear here</p>
+                            </div>
+                            <small style="color: var(--text-secondary);">Payment proof is uploaded by user during registration</small>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button class="modal-action-btn verify" onclick="verifyPayment('${regId}', 'verified')">
+                                <i class="fas fa-check-circle"></i> Verify Payment
+                            </button>
+                            <button class="modal-action-btn reject" onclick="verifyPayment('${regId}', 'rejected')">
+                                <i class="fas fa-times-circle"></i> Reject
+                            </button>
+                            <button class="modal-action-btn cancel" onclick="closeModal()">
+                                <i class="fas fa-times"></i> Close
+                            </button>
+                        </div>
+                    `;
+                }, 1000);
+                
+            } catch (error) {
+                modalBody.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: var(--danger);"></i>
+                        <p style="margin-top: 15px; color: var(--danger);">Failed to load payment proof</p>
+                        <button class="modal-action-btn cancel" onclick="closeModal()" style="margin-top: 20px;">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Verify payment
+        async function verifyPayment(regId, status) {
+            if (!confirm(`Are you sure you want to mark this payment as ${status}?`)) {
+                return;
+            }
+            
+            try {
+                const formData = new FormData();
+                formData.append('registration_id', regId);
+                formData.append('status', status);
+                
+                const response = await fetch('../api/verify-payment.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast(`Payment ${status} successfully!`, 'success');
+                    closeModal();
+                    loadDashboardData();
+                } else {
+                    showToast(result.message || 'Verification failed', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Verification error:', error);
+                showToast('Network error. Please try again.', 'error');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('proofModal').style.display = 'none';
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Search with debounce
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                loadRegistrations();
+            }, 500);
+        });
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminSession();
+            
+            // Auto-refresh every 60 seconds
+            setInterval(loadDashboardData, 60000);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl + R to refresh
+                if (e.ctrlKey && e.key === 'r') {
+                    e.preventDefault();
+                    loadDashboardData();
+                    showToast('Dashboard refreshed', 'info');
+                }
+                
+                // Escape to close modal
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+                
+                // Ctrl + L to logout
+                if (e.ctrlKey && e.key === 'l') {
+                    e.preventDefault();
+                    logout();
+                }
+            });
+        });
+
+        // Sidebar menu click handlers
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    document.querySelectorAll('.sidebar-menu a').forEach(l => {
+                        l.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Handle different menu items
+                    const text = this.textContent.toLowerCase();
+                    
+                    if (text.includes('dashboard')) {
+                        // Already on dashboard
+                    } else if (text.includes('registrations')) {
+                        // You can implement navigation here
+                        showToast('Registrations page coming soon', 'info');
+                    } else if (text.includes('events')) {
+                        showToast('Events page coming soon', 'info');
+                    } else if (text.includes('analytics')) {
+                        showToast('Analytics page coming soon', 'info');
+                    } else if (text.includes('settings')) {
+                        showToast('Settings page coming soon', 'info');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
