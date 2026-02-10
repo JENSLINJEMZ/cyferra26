@@ -292,6 +292,25 @@
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
         }
 
+        /* Error Styling */
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: var(--danger);
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error .error-message {
+            display: block;
+        }
+
         /* Radio Button Groups */
         .radio-group {
             display: flex;
@@ -328,7 +347,7 @@
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
 
-        /* Event Selection - FIXED STYLING */
+        /* Event Selection */
         .event-category {
             margin-bottom: 2rem;
         }
@@ -387,7 +406,6 @@
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
         }
 
-        /* FIXED: Checkbox styling */
         .event-checkbox {
             position: absolute;
             top: 15px;
@@ -414,7 +432,6 @@
             font-size: 0.9rem;
         }
 
-        /* Hide the actual checkbox */
         .event-card input[type="checkbox"] {
             position: absolute;
             opacity: 0;
@@ -484,11 +501,10 @@
             background: white;
             border-radius: 10px;
             margin: 1rem auto;
+            padding: 10px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: #333;
+            /* justify-content: center; */
             position: relative;
             overflow: hidden;
         }
@@ -497,6 +513,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
+            border-radius: 5px;
         }
 
         .account-details {
@@ -662,6 +679,13 @@
             box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
         }
 
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
         /* Fee Display */
         .fee-display {
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(179, 0, 255, 0.1));
@@ -715,6 +739,7 @@
             right: 20px;
             z-index: 9999;
             min-width: 300px;
+            backdrop-filter: blur(10px);
         }
 
         .alert-success {
@@ -816,6 +841,11 @@
             .nav-btn {
                 width: 100%;
             }
+
+            .qr-code {
+                width: 180px;
+                height: 180px;
+            }
         }
     </style>
 </head>
@@ -853,7 +883,7 @@
             </div>
 
             <!-- Registration Form -->
-            <form class="registration-form" id="registrationForm" enctype="multipart/form-data">
+            <form class="registration-form" id="registrationForm" enctype="multipart/form-data" novalidate>
                 
                 <!-- Section 1: Personal Information -->
                 <div class="form-section active" id="section1">
@@ -865,7 +895,9 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="fullName">Full Name <span class="required">*</span></label>
-                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required
+                                   pattern="[A-Za-z\s]{3,50}" title="Name should be 3-50 characters, letters only">
+                            <div class="error-message">Please enter a valid name (3-50 characters, letters only)</div>
                         </div>
                         
                         <div class="form-group">
@@ -876,21 +908,27 @@
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </select>
+                            <div class="error-message">Please select your gender</div>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email ID <span class="required">*</span></label>
                             <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                            <div class="error-message">Please enter a valid email address</div>
                         </div>
 
                         <div class="form-group">
                             <label for="mobile">Mobile Number <span class="required">*</span></label>
-                            <input type="tel" id="mobile" name="mobile" placeholder="+91 98765 43210" pattern="[0-9]{10}" required>
+                            <input type="tel" id="mobile" name="mobile" placeholder="9876543210" 
+                                   pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number" required>
+                            <div class="error-message">Please enter a valid 10-digit mobile number</div>
                         </div>
 
                         <div class="form-group">
                             <label for="whatsapp">WhatsApp Number <span class="required">*</span></label>
-                            <input type="tel" id="whatsapp" name="whatsapp" placeholder="+91 98765 43210" pattern="[0-9]{10}" required>
+                            <input type="tel" id="whatsapp" name="whatsapp" placeholder="9876543210" 
+                                   pattern="[0-9]{10}" title="Enter a valid 10-digit WhatsApp number" required>
+                            <div class="error-message">Please enter a valid 10-digit WhatsApp number</div>
                         </div>
 
                         <div class="form-group">
@@ -903,16 +941,21 @@
                                 <option value="4">4th Year</option>
                                 <option value="pg">PG Student</option>
                             </select>
+                            <div class="error-message">Please select your year of study</div>
                         </div>
 
                         <div class="form-group full-width">
                             <label for="college">College Name <span class="required">*</span></label>
-                            <input type="text" id="college" name="college" placeholder="Enter your college name" required>
+                            <input type="text" id="college" name="college" placeholder="Enter your college name" required
+                                   pattern=".{5,100}" title="College name should be 5-100 characters">
+                            <div class="error-message">Please enter a valid college name (5-100 characters)</div>
                         </div>
 
                         <div class="form-group full-width">
                             <label for="department">Department <span class="required">*</span></label>
-                            <input type="text" id="department" name="department" placeholder="e.g., B.Tech Cyber Security" required>
+                            <input type="text" id="department" name="department" placeholder="e.g., B.Tech Cyber Security" required
+                                   pattern=".{5,100}" title="Department should be 5-100 characters">
+                            <div class="error-message">Please enter a valid department (5-100 characters)</div>
                         </div>
                     </div>
 
@@ -948,32 +991,6 @@
                                 </div>
                                 <div class="event-checkbox"></div>
                             </div>
-                                <div class="event-card" data-event-type="technical" data-event-value="code-gladiator">
-                                <input type="checkbox" name="technical_events[]" value="lol-code">
-                                <div class="event-content">
-                                    <div class="event-icon">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    <div class="event-info">
-                                        <h4>Code Gladiator</h4>
-                                        <p>Competitive programming challenge</p>
-                                    </div>
-                                </div>
-                                <div class="event-checkbox"></div>
-                            </div>
-                                <div class="event-card" data-event-type="technical" data-event-value="code-gladiator">
-                                <input type="checkbox" name="technical_events[]" value="code-lol">
-                                <div class="event-content">
-                                    <div class="event-icon">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    <div class="event-info">
-                                        <h4>Code Gladiator</h4>
-                                        <p>Competitive programming challenge</p>
-                                    </div>
-                                </div>
-                                <div class="event-checkbox"></div>
-                            </div>
                              
                             <div class="event-card" data-event-type="technical" data-event-value="cyber-quest">
                                 <input type="checkbox" name="technical_events[]" value="cyber-quest">
@@ -989,6 +1006,7 @@
                                 <div class="event-checkbox"></div>
                             </div>
                         </div>
+                        <div class="error-message event-error" style="display: none; margin-top: 10px;">Please select at least one event</div>
                     </div>
 
                     <!-- Non-Technical Events -->
@@ -1037,6 +1055,7 @@
                                 <label for="non-veg"><i class="fas fa-drumstick-bite"></i> Non-Vegetarian</label>
                             </div>
                         </div>
+                        <div class="error-message">Please select your food preference</div>
                     </div>
 
                     <div class="form-navigation">
@@ -1074,14 +1093,14 @@
                             <div class="payment-method">
                                 <h4><i class="fas fa-qrcode"></i> UPI Payment</h4>
                                 <div class="qr-code">
-                                    <div style="padding: 20px; text-align: center;">
-                                        <i class="fas fa-qrcode" style="font-size: 100px; color: #333;"></i>
-                                        <p style="margin-top: 10px;">Scan to Pay</p>
-                                    </div>
+                                    <!-- Replace with your actual QR code image -->
+                                    <img src="qr.png" alt="UPI QR Code" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-qrcode\" style=\"font-size: 80px; color: #333;\"></i>'">
                                 </div>
-                                <p style="color: var(--text-secondary); margin-top: 10px;">
-                                    UPI ID: cyferra26@upi
-                                </p>
+                                <p style="color: var(--primary-color); margin-top: 10px; font-weight: bold;">
+                                    UPI ID: cyferra26@upi</p>
+                                <button type="button" class="copy-btn" onclick="copyToClipboard('cyferra26@upi')" style="margin-top: 5px;">
+                                    <i class="fas fa-copy"></i> Copy UPI ID
+                                </button>
                             </div>
 
                             <!-- Bank Transfer -->
@@ -1096,14 +1115,14 @@
                                         <span>Account No:</span>
                                         <strong>1234567890</strong>
                                         <button type="button" class="copy-btn" onclick="copyToClipboard('1234567890')">
-                                            <i class="fas fa-copy"></i> Copy
+                                            <i class="fas fa-copy"></i>
                                         </button>
                                     </p>
                                     <p>
                                         <span>IFSC Code:</span>
                                         <strong>SBIN0001234</strong>
                                         <button type="button" class="copy-btn" onclick="copyToClipboard('SBIN0001234')">
-                                            <i class="fas fa-copy"></i> Copy
+                                            <i class="fas fa-copy"></i>
                                         </button>
                                     </p>
                                     <p>
@@ -1121,13 +1140,14 @@
                             </h4>
                             
                             <div class="upload-container" id="uploadContainer" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
-                                <input type="file" id="paymentProof" name="payment_proof" accept="image/*,.pdf" onchange="handleFileSelect(event)" required>
+                                <input type="file" id="paymentProof" name="payment_proof" accept="image/* */,.pdf" onchange="handleFileSelect(event)" required>
                                 <div class="upload-icon">
                                     <i class="fas fa-cloud-upload-alt"></i>
                                 </div>
                                 <div class="upload-text">Click to upload or drag and drop</div>
                                 <div class="upload-subtext">PNG, JPG or PDF (Max 5MB)</div>
                             </div>
+                            <div class="error-message" id="paymentProofError">Please upload payment screenshot</div>
                             
                             <div id="uploadedFileInfo" style="display: none;">
                                 <div class="uploaded-file">
@@ -1307,57 +1327,98 @@
         // Validate current section
         function validateSection(section) {
             const currentSectionElement = document.getElementById(`section${section}`);
-            const requiredInputs = currentSectionElement.querySelectorAll('[required]');
             let isValid = true;
             
-            requiredInputs.forEach(input => {
-                if (!input.value && input.type !== 'radio' && input.type !== 'checkbox') {
-                    isValid = false;
-                    input.style.borderColor = '#ff4444';
-                } else {
-                    input.style.borderColor = '';
+            if (section === 1) {
+                // Validate all inputs in section 1
+                const inputs = currentSectionElement.querySelectorAll('input[required], select[required]');
+                inputs.forEach(input => {
+                    const formGroup = input.closest('.form-group');
+                    const errorMessage = formGroup.querySelector('.error-message');
+                    
+                    if (!input.checkValidity()) {
+                        isValid = false;
+                        formGroup.classList.add('error');
+                        
+                        // Custom error messages
+                        if (input.type === 'tel' && !input.value.match(/^[0-9]{10}$/)) {
+                            errorMessage.textContent = 'Please enter a valid 10-digit number';
+                        } else if (input.value === '') {
+                            errorMessage.textContent = 'This field is required';
+                        } else {
+                            errorMessage.textContent = input.validationMessage;
+                        }
+                    } else {
+                        formGroup.classList.remove('error');
+                    }
+                });
+                
+                // Additional validation for matching phone numbers
+                const mobile = document.getElementById('mobile');
+                const whatsapp = document.getElementById('whatsapp');
+                if (mobile.value && whatsapp.value && mobile.value !== whatsapp.value) {
+                    const confirmMatch = confirm('Mobile and WhatsApp numbers are different. Continue?');
+                    if (!confirmMatch) {
+                        isValid = false;
+                    }
                 }
-            });
-            
-            // Special validation for section 2
-            if (section === 2) {
+                
+            } else if (section === 2) {
+                // Validate events selection
                 const technicalEvents = document.querySelectorAll('input[name="technical_events[]"]:checked');
                 const nonTechnicalEvents = document.querySelectorAll('input[name="non_technical_events[]"]:checked');
-                const foodPreference = document.querySelector('input[name="food_preference"]:checked');
                 
                 if (technicalEvents.length === 0 && nonTechnicalEvents.length === 0) {
                     isValid = false;
-                    showAlert('Please select at least one event', 'error');
+                    document.querySelector('.event-error').style.display = 'block';
+                } else {
+                    document.querySelector('.event-error').style.display = 'none';
                 }
+                
+                // Validate food preference
+                const foodPreference = document.querySelector('input[name="food_preference"]:checked');
+                const foodGroup = document.querySelector('.form-group.full-width');
+                const foodError = foodGroup.querySelector('.error-message');
                 
                 if (!foodPreference) {
                     isValid = false;
-                    showAlert('Please select your food preference', 'error');
+                    foodGroup.classList.add('error');
+                    foodError.style.display = 'block';
+                } else {
+                    foodGroup.classList.remove('error');
+                    foodError.style.display = 'none';
+                }
+                
+            } else if (section === 3) {
+                // Validate payment proof
+                const paymentProof = document.getElementById('paymentProof');
+                const paymentProofError = document.getElementById('paymentProofError');
+                
+                if (!paymentProof.files[0]) {
+                    isValid = false;
+                    paymentProofError.style.display = 'block';
+                } else {
+                    paymentProofError.style.display = 'none';
                 }
             }
             
-            // Special validation for section 3
-            if (section === 3) {
-                const paymentProof = document.getElementById('paymentProof').files[0];
-                if (!paymentProof) {
-                    isValid = false;
-                    showAlert('Please upload payment screenshot', 'error');
-                }
+            if (!isValid) {
+                showAlert('Please fill in all required fields correctly', 'error');
             }
             
             return isValid;
         }
         
-        // ==============================
-        // FIXED EVENT SELECTION CODE
-        // ==============================
-        
+        // Initialize form validation on page load
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize event card click handlers
             initEventCards();
             
             // Initialize radio buttons
             initRadioButtons();
+            
+            // Add real-time validation for inputs
+            initRealTimeValidation();
         });
         
         function initEventCards() {
@@ -1371,8 +1432,6 @@
                     const checkbox = this.querySelector('input[type="checkbox"]');
                     checkbox.checked = !checkbox.checked;
                     this.classList.toggle('selected', checkbox.checked);
-                    
-                    console.log('Event card clicked:', checkbox.value, 'Checked:', checkbox.checked);
                 });
             });
         }
@@ -1393,14 +1452,36 @@
                         // Select this one
                         radio.checked = true;
                         this.classList.add('selected');
-                        
-                        console.log('Radio selected:', radio.value);
                     }
                 });
             });
         }
 
-        // Select radio option (for backward compatibility)
+        function initRealTimeValidation() {
+            // Add input event listeners for real-time validation
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const formGroup = this.closest('.form-group');
+                    if (formGroup) {
+                        if (this.checkValidity()) {
+                            formGroup.classList.remove('error');
+                        }
+                    }
+                });
+                
+                input.addEventListener('blur', function() {
+                    const formGroup = this.closest('.form-group');
+                    if (formGroup) {
+                        if (!this.checkValidity()) {
+                            formGroup.classList.add('error');
+                        }
+                    }
+                });
+            });
+        }
+
+        // Select radio option
         function selectRadio(option) {
             const radio = option.querySelector('input[type="radio"]');
             if (radio) {
@@ -1455,18 +1536,23 @@
             const maxSize = 5 * 1024 * 1024; // 5MB
             if (file.size > maxSize) {
                 showAlert('File size must be less than 5MB', 'error');
+                removeFile();
                 return;
             }
+            
             const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
             if (!validTypes.includes(file.type)) {
-                showAlert('Please upload a valid image or PDF file', 'error');
+                showAlert('Please upload a valid image or PDF file (PNG, JPG, PDF)', 'error');
+                removeFile();
                 return;
             }
+            
             uploadedFile = file;
             document.getElementById('uploadContainer').style.display = 'none';
             document.getElementById('uploadedFileInfo').style.display = 'block';
             document.getElementById('fileName').textContent = file.name;
             document.getElementById('fileSize').textContent = formatFileSize(file.size);
+            document.getElementById('paymentProofError').style.display = 'none';
         }
 
         function removeFile() {
@@ -1488,6 +1574,9 @@
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 showAlert('Copied to clipboard!', 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showAlert('Failed to copy to clipboard', 'error');
             });
         }
 
@@ -1512,22 +1601,30 @@
         `;
         document.head.appendChild(style);
 
-        // ==============================
-        // BACKEND INTEGRATION CODE
-        // ==============================
-
         // FORM SUBMISSION TO API
         document.getElementById('registrationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            console.log('Form submitted, validating...');
-            
-            // Final validation
-            if (!validateSection(currentSection)) {
-                console.log('Validation failed');
-                return;
+            // Validate all sections before submission
+            for (let i = 1; i <= totalSections; i++) {
+                if (!validateSection(i)) {
+                    // Go to the section with errors
+                    currentSection = i;
+                    document.querySelectorAll('.form-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.querySelectorAll('.progress-step').forEach(step => {
+                        step.classList.remove('active');
+                    });
+                    
+                    document.getElementById(`section${i}`).classList.add('active');
+                    document.getElementById(`step${i}`).classList.add('active');
+                    
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
             }
-
+            
             const submitBtn = document.querySelector('.submit-btn');
             const originalContent = submitBtn.innerHTML;
             submitBtn.innerHTML = '<span class="loading"></span> Processing...';
@@ -1536,25 +1633,13 @@
             // Prepare form data
             const formData = new FormData(this);
             
-            // Debug: Log form data
-            console.log('FormData entries:');
-            for (let [key, value] of formData.entries()) {
-                console.log(key + ': ' + value);
-            }
-            
             // Get selected events
             const technicalEvents = Array.from(document.querySelectorAll('input[name="technical_events[]"]:checked'))
                 .map(cb => cb.value);
             const nonTechnicalEvents = Array.from(document.querySelectorAll('input[name="non_technical_events[]"]:checked'))
                 .map(cb => cb.value);
             
-            console.log('Technical events:', technicalEvents);
-            console.log('Non-technical events:', nonTechnicalEvents);
-            
-            // Combine all events into a single string for display
-            const allEvents = [...technicalEvents, ...nonTechnicalEvents];
-            
-            // Ensure event arrays are properly added to FormData
+            // Add event data to FormData
             technicalEvents.forEach(event => {
                 formData.append('technical_events[]', event);
             });
@@ -1564,17 +1649,13 @@
             });
 
             try {
-                console.log('Sending request to api/register.php...');
-                
                 // Send to your API endpoint
                 const response = await fetch('api/register.php', {
                     method: 'POST',
                     body: formData
                 });
 
-                console.log('Response received, parsing JSON...');
                 const result = await response.json();
-                console.log('API Response:', result);
 
                 if (result.success) {
                     // Show success modal with registration ID

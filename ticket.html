@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CYFERRA26 Registration Ticket</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ticket {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid #00d4ff;
+            position: relative;
+        }
+        
+        .ticket::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #b300ff);
+        }
+        
+        .ticket-header {
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(179, 0, 255, 0.1));
+            border-bottom: 2px solid #00d4ff;
+        }
+        
+        .ticket-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00d4ff, #b300ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .ticket-subtitle {
+            color: #00a8cc;
+            opacity: 0.8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .ticket-title {
+            font-size: 1.1rem;
+            color: #333;
+            margin: 10px 0 5px;
+            font-weight: 600;
+        }
+        
+        .ticket-date {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 10px 0;
+            background: ${statusColor}20;
+            color: ${statusColor};
+            border: 2px solid ${statusColor}50;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .ticket-body {
+            padding: 25px;
+        }
+        
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .ticket-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .ticket-label {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .ticket-value {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .ticket-value.highlight {
+            color: #00d4ff;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+        
+        .events-section {
+            margin: 25px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .events-title {
+            color: #00d4ff;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .events-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .event-tag {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #00d4ff;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        .ticket-footer {
+            padding: 25px;
+            text-align: center;
+            background: #f8f9fa;
+            border-top: 2px solid #e0e0e0;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .qr-placeholder {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border: 2px dashed #00d4ff;
+            border-radius: 8px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00d4ff;
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 8px;
+        }
+        
+        .security-note {
+            color: #666;
+            font-size: 0.75rem;
+            margin-top: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .barcode {
+            margin-top: 15px;
+            height: 30px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000 0px,
+                #000 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            position: relative;
+        }
+        
+        .barcode::before {
+            content: '${regId}';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Courier New', monospace;
+            color: #333;
+            font-weight: bold;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+        
+        .print-footer {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.7rem;
+            color: #999;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            
+            .ticket {
+                max-width: 100%;
+                margin: 0;
+                box-shadow: none;
+                border: 2px solid #000;
+            }
+            
+            @page {
+                margin: 0.5cm;
+                size: A5;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .ticket-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ticket-logo {
+                font-size: 1.8rem;
+            }
+            
+            .ticket-header {
+                padding: 20px;
+            }
+            
+            .ticket-body {
+                padding: 20px;
+            }
+            
+            .ticket-footer {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="ticket-header">
+            <div class="ticket-logo">CYFERRA'26</div>
+            <div class="ticket-subtitle">OFFICIAL REGISTRATION TICKET</div>
+            <h2 class="ticket-title">Technical Fest Registration</h2>
+            <div class="ticket-date">Printed on ${new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}</div>
+            <div class="status-badge">${status}</div>
+        </div>
+        
+        <div class="ticket-body">
+            <div class="ticket-grid">
+                <div class="ticket-item">
+                    <div class="ticket-label">Registration ID</div>
+                    <div class="ticket-value highlight">${regId}</div>
+                </div>
+                
+                <div class="ticket-item">
+                    <div class="ticket-label">Full Name</div>
+                    <div class="ticket-value">${fullName}</div>
+                </div>
+                
+                <div class="ticket-item">
+                    <div class="ticket-label">College</div>
+                    <div class="ticket-value">${college}</div>
+                </div>
+                
+                <div class="ticket-item">
+                    <div class="ticket-label">Department</div>
+                    <div class="ticket-value">${department}</div>
+                </div>
+                
+                <div class="ticket-item">
+                    <div class="ticket-label">Year of Study</div>
+                    <div class="ticket-value">${year}</div>
+                </div>
+                
+                <div class="ticket-item">
+                    <div class="ticket-label">Registration Date</div>
+                    <div class="ticket-value">${regDate}</div>
+                </div>
+            </div>
+            
+            ${events.length > 0 ? `
+                <div class="events-section">
+                    <h3 class="events-title">Registered Events</h3>
+                    <div class="events-grid">
+                        ${events.map(event => `
+                            <span class="event-tag">${event}</span>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+        </div>
+        
+        <div class="ticket-footer">
+            <div class="qr-placeholder">
+                <div>
+                    <i class="fas fa-qrcode" style="font-size: 1.5rem; margin-bottom: 8px;"></i>
+                    <div>Scan at Entry</div>
+                </div>
+            </div>
+            
+            <div class="barcode"></div>
+            
+            <div class="security-note">
+                <i class="fas fa-shield-alt"></i>
+                <strong>Important:</strong> Bring this ticket along with your college ID for verification at the venue.
+            </div>
+            
+            <div class="print-footer">
+                <p>This is an official registration ticket for CYFERRA'26</p>
+                <p style="margin-top: 5px;">Present this ticket at the registration desk</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>
