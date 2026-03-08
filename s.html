@@ -470,6 +470,7 @@
             background: rgba(0, 212, 255, 0.05);
             border: 2px solid var(--primary-color);
             border-radius: 15px;
+            padding: 2rem;
             margin: 2rem 0;
         }
 
@@ -482,6 +483,7 @@
 
         .payment-method {
             text-align: center;
+            padding: 1.5rem;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -906,7 +908,7 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="fullName">Full Name <span class="required">*</span></label>
-                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name or Team Name" required
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required
                                    pattern="[A-Za-z\s]{3,50}" title="Name should be 3-50 characters, letters only">
                             <div class="error-message">Please enter a valid name (3-50 characters, letters only)</div>
                         </div>
@@ -1006,7 +1008,7 @@
                                 <input type="checkbox" name="technical_events[]" value="Modern-Quiz">
                                 <div class="event-content">
                                     <div class="event-icon">
-                                        <i class="fas fa-shield-alt"></i>
+                                        <i class="fas fa-code"></i>
                                     </div>
                                     <div class="event-info">
                                         <h4>Modern Quiz</h4>
@@ -1019,7 +1021,7 @@
                                 <input type="checkbox" name="technical_events[]" value="pixel-to-page">
                                 <div class="event-content">
                                     <div class="event-icon">
-                                        <i class="fas fa-robot"></i>
+                                        <i class="fas fa-code"></i>
                                     </div>
                                     <div class="event-info">
                                         <h4>pixel to page</h4>
@@ -1033,7 +1035,7 @@
                                 <input type="checkbox" name="technical_events[]" value="project-expo">
                                 <div class="event-content">
                                     <div class="event-icon">
-                                        <i class="fas fa-brain"></i>
+                                        <i class="fas fa-shield-alt"></i>
                                     </div>
                                     <div class="event-info">
                                         <h4>Project Expo</h4>
@@ -1042,19 +1044,11 @@
                                 </div>
                                 <div class="event-checkbox"></div>
                             </div>
-                        </div>
-                        <div class="error-message event-error" style="display: none; margin-top: 10px;">Please select at least one event</div>
-                    </div>
-
-                     <!-- Non-Technical Events -->
-                    <div class="event-category">
-                        <h3><i class="fas fa-gamepad"></i>Paper Presentation</h3>
-                        <div class="event-grid">
                             <div class="event-card" data-event-type="technical" data-event-value="paper-presentation">
                                 <input type="checkbox" name="technical_events[]" value="paper-presentation">
                                 <div class="event-content">
                                     <div class="event-icon">
-                                        <i class="fas fa-laptop-code"></i>
+                                        <i class="fas fa-shield-alt"></i>
                                     </div>
                                     <div class="event-info">
                                         <h4>Paper Presentation</h4>
@@ -1064,6 +1058,7 @@
                                 <div class="event-checkbox"></div>
                             </div>
                         </div>
+                        <div class="error-message event-error" style="display: none; margin-top: 10px;">Please select at least one event</div>
                     </div>
 
                     <!-- Non-Technical Events -->
@@ -1074,7 +1069,7 @@
                                 <input type="checkbox" name="non_technical_events[]" value="Upside-Down">
                                 <div class="event-content">
                                     <div class="event-icon">
-                                        <i class="fas fa-microphone"></i>
+                                        <i class="fas fa-brain"></i>
                                     </div>
                                     <div class="event-info">
                                         <h4>Upside Down</h4>
@@ -1087,7 +1082,7 @@
                                 <input type="checkbox" name="non_technical_events[]" value="blind-moji">
                                 <div class="event-content">
                                     <div class="event-icon">
-                                        <i class="fa-regular fa-face-grin"></i>
+                                        <i class="fas fa-brain"></i>
                                     </div>
                                     <div class="event-info">
                                         <h4>Blind Moji</h4>
@@ -1100,7 +1095,7 @@
                                 <input type="checkbox" name="non_technical_events[]" value="ADZAP">
                                 <div class="event-content">
                                     <div class="event-icon">
-                                        <i class="fas fa-camera"></i>
+                                        <i class="fas fa-trophy"></i>
                                     </div>
                                     <div class="event-info">
                                         <h4>ADZAP</h4>
@@ -1109,15 +1104,15 @@
                                 </div>
                                 <div class="event-checkbox"></div>
                             </div>
-                            <div class="event-card" data-event-type="non-technical" data-event-value="collage-making">
-                                <input type="checkbox" name="non_technical_events[]" value="collage-making">
+                            <div class="event-card" data-event-type="non-technical" data-event-value="colaj-making">
+                                <input type="checkbox" name="non_technical_events[]" value="colaj-making">
                                 <div class="event-content">
                                     <div class="event-icon">
-                                        <i class="fas fa-paint-brush"></i>
+                                        <i class="fas fa-trophy"></i>
                                     </div>
                                     <div class="event-info">
-                                        <h4>Collage Making</h4>
-                                        <p>Collage Making is a creative event where participants design posters based</p>
+                                        <h4>Colaj Making</h4>
+                                        <p>Colaj Making is a creative event where participants design posters based</p>
                                     </div>
                                 </div>
                                 <div class="event-checkbox"></div>
@@ -1162,14 +1157,14 @@
                     <!-- Fee Display -->
                     <div class="fee-display">
                         <p class="fee-description">Total Registration Fee</p>
-                        <div class="fee-amount">₹300</div>
-                        <p class="fee-description">If you are a team, please pay 300 × 2 as the registration fee</p>
+                        <div class="fee-amount">₹250</div>
+                        <p class="fee-description">Includes all events, lunch, and certificate</p>
                     </div>
 
                     <!-- Payment Methods -->
                     <div class="payment-container">
                         <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--primary-color);">
-                            Choose any one Payment Method
+                            Choose Payment Method
                         </h3>
                         
                         <div class="payment-methods">
@@ -1178,11 +1173,11 @@
                                 <h4><i class="fas fa-qrcode"></i> UPI Payment</h4>
                                 <div class="qr-code">
                                     <!-- Replace with your actual QR code image -->
-                                    <img src="https://cyferra26.unaux.com/qr.png" alt="UPI QR Code" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-qrcode\" style=\"font-size: 80px; color: #333;\"></i>'">
+                                    <img src="qr.png" alt="UPI QR Code" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-qrcode\" style=\"font-size: 80px; color: #333;\"></i>'">
                                 </div>
                                 <p style="color: var(--primary-color); margin-top: 10px; font-weight: bold;">
-                                    UPI ID: nithishkumar2005a@pingpay</p>
-                                <button type="button" class="copy-btn" onclick="copyToClipboard('nithishkumar2005a@pingpay')" style="margin-top: 5px;">
+                                    UPI ID: cyferra26@upi</p>
+                                <button type="button" class="copy-btn" onclick="copyToClipboard('cyferra26@upi')" style="margin-top: 5px;">
                                     <i class="fas fa-copy"></i> Copy UPI ID
                                 </button>
                             </div>
@@ -1193,115 +1188,25 @@
                                 <div class="account-details">
                                     <p>
                                         <span>Account Name:</span>
-                                        <strong>NITHISHKUMAR M R</strong>
+                                        <strong>CYFERRA26</strong>
                                     </p>
                                     <p>
                                         <span>Account No:</span>
-                                        <strong>nithishkumar2005a@pingpay</strong>
-                                        <button type="button" class="copy-btn" onclick="copyToClipboard('nithishkumar2005a@pingpay')">
+                                        <strong>1234567890</strong>
+                                        <button type="button" class="copy-btn" onclick="copyToClipboard('1234567890')">
                                             <i class="fas fa-copy"></i>
                                         </button>
                                     </p>
                                     <p>
                                         <span>IFSC Code:</span>
-                                        <strong>TMBL0000327</strong>
-                                        <button type="button" class="copy-btn" onclick="copyToClipboard('TMBL0000327')">
+                                        <strong>SBIN0001234</strong>
+                                        <button type="button" class="copy-btn" onclick="copyToClipboard('SBIN0001234')">
                                             <i class="fas fa-copy"></i>
                                         </button>
                                     </p>
                                     <p>
                                         <span>Bank Name:</span>
-                                        <strong>Ping Pay Axis Bank</strong>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="payment-methods">
-                            <!-- UPI Payment -->
-                            <div class="payment-method">
-                                <h4><i class="fas fa-qrcode"></i> UPI Payment</h4>  
-                                <div class="qr-code">
-                                    <!-- Replace with your actual QR code image -->
-                                    <img src="qr2.jpeg" alt="UPI QR Code" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-qrcode\" style=\"font-size: 80px; color: #333;\"></i>'">
-                                </div>
-                                <p style="color: var(--primary-color); margin-top: 10px; font-weight: bold;">
-                                    UPI ID: mathuamg3008@okicici</p>
-                                <button type="button" class="copy-btn" onclick="copyToClipboard('mathuamg3008@okicici')" style="margin-top: 5px;">
-                                    <i class="fas fa-copy"></i> Copy UPI ID
-                                </button>
-                            </div>
-
-                            <!-- Bank Transfer -->
-                            <div class="payment-method">
-                                <h4><i class="fas fa-university"></i> Bank Transfer</h4>
-                                <div class="account-details">
-                                    <p>
-                                        <span>Account Name:</span>
-                                        <strong>Mathesh S</strong>
-                                    </p>
-                                    <p>
-                                        <span>Account No:</span>
-                                        <strong>7358861834</strong>
-                                        <button type="button" class="copy-btn" onclick="copyToClipboard('7358861834')">
-                                            <i class="fas fa-copy"></i>
-                                        </button>
-                                    </p>
-                                    <p>
-                                        <span>IFSC Code:</span>
-                                        <strong>SBIN0016491</strong>
-                                        <button type="button" class="copy-btn" onclick="copyToClipboard('SBIN0016491')">
-                                            <i class="fas fa-copy"></i>
-                                        </button>
-                                    </p>
-                                    <p>
-                                        <span>Bank Name:</span>
-                                        <strong>state bank of india</strong>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="payment-methods">
-                            <!-- UPI Payment -->
-                            <div class="payment-method">
-                                <h4><i class="fas fa-qrcode"></i> UPI Payment</h4>  
-                                <div class="qr-code">
-                                    <!-- Replace with your actual QR code image -->
-                                    <img src="qr3.jpeg" alt="UPI QR Code" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-qrcode\" style=\"font-size: 80px; color: #333;\"></i>'">
-                                </div>
-                                <p style="color: var(--primary-color); margin-top: 10px; font-weight: bold;">
-                                    UPI ID: krishathiraviyam5-1@okicici</p>
-                                <button type="button" class="copy-btn" onclick="copyToClipboard('krishathiraviyam5-1@okicici')" style="margin-top: 5px;">
-                                    <i class="fas fa-copy"></i> Copy UPI ID
-                                </button>
-                            </div>
-
-                            <!-- Bank Transfer -->
-                            <div class="payment-method">
-                                <h4><i class="fas fa-university"></i> Bank Transfer</h4>
-                                <div class="account-details">
-                                    <p>
-                                        <span>Account Name:</span>
-                                        <strong>Krisha T</strong>
-                                    </p>
-                                    <p>
-                                        <span>Account No:</span>
-                                        <strong>9159605972</strong>
-                                        <button type="button" class="copy-btn" onclick="copyToClipboard('9159605972')">
-                                            <i class="fas fa-copy"></i>
-                                        </button>
-                                    </p>
-                                    <p>
-                                        <span>IFSC Code:</span>
-                                        <strong>CNRB0003657</strong>
-                                        <button type="button" class="copy-btn" onclick="copyToClipboard('CNRB0003657')">
-                                            <i class="fas fa-copy"></i>
-                                        </button>
-                                    </p>
-                                    <p>
-                                        <span>Bank Name:</span>
-                                        <strong>state bank of india</strong>
+                                        <strong>State Bank of India</strong>
                                     </p>
                                 </div>
                             </div>
@@ -1471,7 +1376,7 @@
             { event1: 'pixel-to-page', event2: 'project-expo' },
             // Non-technical events
             { event1: 'Upside-Down', event2: 'blind-moji' },
-            { event1: 'ADZAP', event2: 'collage-making' }
+            { event1: 'ADZAP', event2: 'colaj-making' }
         ];
 
         // Function to check if two events are mutually exclusive

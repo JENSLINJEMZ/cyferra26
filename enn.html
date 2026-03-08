@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CYFERRA26 • Registration Closed</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #cbd5e1;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Main Card */
+        .closed-card {
+            background: white;
+            border-radius: 32px;
+            padding: 50px 40px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            background: #fee2e2;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: var(--danger);
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #fecaca;
+        }
+
+        /* Icon Section */
+        .icon-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon-wrapper {
+            width: 100px;
+            height: 100px;
+            background: var(--bg-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .icon-wrapper i {
+            font-size: 48px;
+            color: white;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 20px;
+            background: #e0f2fe;
+            border-radius: 40px;
+            color: #0369a1;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Title */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Deadline Card */
+        .deadline-card {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #92400e;
+            font-size: 16px;
+            flex-wrap: wrap;
+        }
+
+        .deadline-card i {
+            color: var(--warning);
+            font-size: 20px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 25px 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Message Box */
+        .message-box {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .message-box i {
+            color: var(--primary);
+            font-size: 24px;
+            margin: 0 10px;
+        }
+
+        .message-box p {
+            font-size: 18px;
+            color: var(--dark);
+            line-height: 1.8;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        /* Event Card */
+        .event-card {
+            background: var(--bg-gradient);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .event-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .event-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .event-info h3 {
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .event-info .date {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .event-info .time {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .event-right {
+            text-align: right;
+        }
+
+        .event-right .days {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .event-right .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-item i {
+            width: 24px;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .info-item span {
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        .info-item strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--bg-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .social-link:hover {
+            background: var(--bg-gradient);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Contact Info */
+        .contact-info {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .contact-info p {
+            color: var(--gray);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .contact-info i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .contact-info a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            opacity: 0.8;
+        }
+
+        .footer a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .closed-card {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .event-left {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .event-right {
+                text-align: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .info-item {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .event-info .date {
+                font-size: 22px;
+            }
+
+            .event-right .days {
+                font-size: 28px;
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Card -->
+        <div class="closed-card">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="logo-text">CYFERRA26</div>
+                </div>
+                <div class="status-badge">
+                    <i class="fas fa-lock"></i>
+                    <span>REGISTRATION CLOSED</span>
+                </div>
+            </div>
+
+            <!-- Icon Section -->
+            <div class="icon-section">
+                <div class="icon-wrapper">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="badge">THANK YOU!</div>
+            </div>
+
+            <!-- Title -->
+            <h1>Registration Closed</h1>
+            <p class="subtitle">We've reached maximum capacity for CYFERRA26</p>
+
+            <!-- Deadline Card -->
+            <div class="deadline-card">
+                <i class="fas fa-hourglass-end"></i>
+                <span>Registration deadline passed on <strong>March 1, 2026</strong></span>
+                <i class="fas fa-hourglass-end"></i>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">250+</div>
+                    <div class="stat-label">Participants</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">15+</div>
+                    <div class="stat-label">Colleges</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Events</div>
+                </div>
+            </div>
+
+            <!-- Message Box -->
+            <div class="message-box">
+                <p>
+                    <i class="fas fa-quote-left"></i>
+                    Thank you for your overwhelming response! 
+                    <span class="highlight">CYFERRA26</span> has reached full capacity.
+                    <i class="fas fa-quote-right"></i>
+                </p>
+            </div>
+
+            <!-- Event Card -->
+            <div class="event-card">
+                <div class="event-left">
+                    <div class="event-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="event-info">
+                        <h3>Event Date</h3>
+                        <div class="date">March 3, 2026</div>
+                        <div class="time">9:00 AM - 4:00 PM</div>
+                    </div>
+                </div>
+                <div class="event-right">
+                    <div class="days">2</div>
+                    <div class="label">Days to go</div>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="info-card">
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <span><strong>Hall tickets</strong> will be sent to registered email</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span><strong>Reporting time:</strong> 8:30 AM sharp</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-id-card"></i>
+                    <span>Bring your <strong>college ID card</strong> for verification</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span><strong>Venue:</strong> Sethu Institute of Technology, Kariapatti</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="verify-status.html" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                    Verify Payment Status
+                </a>
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i>
+                    Back to Home
+                </a>
+            </div>
+
+            <!-- Social Links -->
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <p>
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:cyferra26@sethu.ac.in">cyferra26@sethu.ac.in</a>
+                </p>
+                <p>
+                    <i class="fas fa-phone-alt"></i>
+                    <a href="tel:+919876543210">+91 98765 43210</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2026 CYFERRA26 • Cybersecurity Department • Sethu Institute of Technology</p>
+            <p style="margin-top: 8px;">
+                <a href="terms.html">Terms</a> • 
+                <a href="privacy.html">Privacy</a> • 
+                <a href="contact.html">Contact</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<?php
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+require_once '../config/database.php';
+
+function sendResponse($authenticated, $message = '', $user = null) {
+    echo json_encode([
+        'authenticated' => $authenticated,
+        'message' => $message,
+        'user' => $user
+    ]);
+    exit;
+}
+
+try {
+    // Only accept POST requests
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        sendResponse(false, 'Invalid request method');
+    }
+    
+    // Get JSON input
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    if (!$input) {
+        // Try to get from POST
+        $input = $_POST;
+    }
+    
+    $token = $input['token'] ?? '';
+    
+    if (empty($token)) {
+        sendResponse(false, 'No token provided');
+    }
+    
+    // Database connection
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    if (!$db) {
+        sendResponse(false, 'Database connection failed');
+    }
+    
+    // Check if session exists and is not expired
+    $query = "SELECT s.*, u.username, u.full_name, u.role 
+              FROM admin_sessions s 
+              JOIN admin_users u ON s.user_id = u.id 
+              WHERE s.session_token = :token 
+              AND s.expires_at > NOW() 
+              AND u.status = 'active'";
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute([':token' => $token]);
+    
+    if ($stmt->rowCount() === 0) {
+        sendResponse(false, 'Invalid or expired session');
+    }
+    
+    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    sendResponse(true, 'Session valid', [
+        'id' => $session['user_id'],
+        'username' => $session['username'],
+        'full_name' => $session['full_name'],
+        'role' => $session['role']
+    ]);
+    
+} catch (Exception $e) {
+    error_log("Session verification error: " . $e->getMessage());
+    sendResponse(false, 'An error occurred');
+}
+?>

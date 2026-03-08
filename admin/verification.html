@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Your existing styles remain exactly the same */
         :root {
             --primary: #00d4ff;
             --primary-dark: #00a8cc;
@@ -781,22 +782,19 @@
             </div>
 
             <div class="admin-info">
-                <h3>Welcome, Admin</h3>
-                <p>Last login: Today, 14:30</p>
+                <h3>Welcome, <span id="adminName">Admin</span></h3>
+                <p id="adminRole"></p>
             </div>
 
             <ul class="sidebar-menu">
-                <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="#"><i class="fas fa-users"></i> Registrations</a></li>
-                <li><a href="#"><i class="fas fa-calendar-alt"></i> Events</a></li>
-                <li><a href="#"><i class="fas fa-chart-bar"></i> Analytics</a></li>
-                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-                <li><a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="verification.html" class="active"><i class="fas fa-tachometer-alt"></i> verification</a></li>
+                <li><a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" id="mainContent" style="display: none;">
             <!-- Header -->
             <div class="header">
                 <h1>Payment Verification</h1>
@@ -906,6 +904,12 @@
                 <i class="fas fa-spinner fa-spin"></i> Loading registrations...
             </div>
         </main>
+
+        <!-- Authentication Loading Screen -->
+        <div id="authLoading" style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100%; flex-direction: column;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+            <h3 style="color: var(--text-secondary);">Verifying authentication...</h3>
+        </div>
     </div>
 
     <!-- Proof Modal -->
@@ -935,28 +939,121 @@
     <div id="toast" class="toast"></div>
 
     <script>
+        // Get token from localStorage or session
+        function getAuthToken() {
+            return localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token');
+        }
+
+        // Check if user is authenticated admin
+        async function checkAuth() {
+            const token = getAuthToken();
+            
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+
+            try {
+                const response = await fetch('../api/verify-session.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'token=' + encodeURIComponent(token)
+                });
+
+                const result = await response.json();
+
+                if (result.authenticated && result.user) {
+                    // Admin is authenticated
+                    document.getElementById('authLoading').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    
+                    // Update admin info
+                    document.getElementById('adminName').textContent = result.user.full_name || 'Admin';
+                    document.getElementById('adminRole').textContent = `Role: ${result.user.role || 'Administrator'}`;
+                    
+                    // Initialize the dashboard
+                    initializeDashboard();
+                    return true;
+                } else {
+                    // Not authenticated, redirect to login
+                    localStorage.removeItem('admin_token');
+                    sessionStorage.removeItem('admin_token');
+                    window.location.href = 'login.html';
+                    return false;
+                }
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                window.location.href = 'login.html';
+                return false;
+            }
+        }
+
+        // Initialize dashboard after authentication
+        function initializeDashboard() {
+            // Mobile sidebar toggle
+            document.getElementById('mobileToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const sidebar = document.getElementById('sidebar');
+                const mobileToggle = document.getElementById('mobileToggle');
+                
+                if (window.innerWidth <= 1200 && 
+                    !sidebar.contains(event.target) && 
+                    !mobileToggle.contains(event.target) && 
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                }
+            });
+
+            // Initialize date inputs with today's date
+            const today = new Date().toISOString().split('T')[0];
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const weekAgoStr = weekAgo.toISOString().split('T')[0];
+            
+            document.getElementById('dateFrom').value = weekAgoStr;
+            document.getElementById('dateTo').value = today;
+            
+            // Initial load
+            fetchRegistrations();
+
+            // Auto-refresh every 60 seconds
+            setInterval(fetchRegistrations, 60000);
+
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+        }
+
+        // Logout function
+        function logout() {
+            // Clear tokens
+            localStorage.removeItem('admin_token');
+            sessionStorage.removeItem('admin_token');
+            
+            // Optionally call logout API
+            fetch('../api/logout.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'token=' + encodeURIComponent(getAuthToken())
+            }).finally(() => {
+                window.location.href = 'login.html';
+            });
+        }
+
+        // Your existing functions (with slight modifications)
         let timer;
         let currentData = [];
 
-        // Mobile sidebar toggle
-        document.getElementById('mobileToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const mobileToggle = document.getElementById('mobileToggle');
-            
-            if (window.innerWidth <= 1200 && 
-                !sidebar.contains(event.target) && 
-                !mobileToggle.contains(event.target) && 
-                sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-            }
-        });
-
-        // Search with debounce
         function handleSearch() {
             clearTimeout(timer);
             document.getElementById('loadingIndicator').style.display = 'flex';
@@ -973,15 +1070,17 @@
             const dateTo = document.getElementById('dateTo').value;
             
             try {
-                // Show loading
                 document.getElementById('loadingIndicator').style.display = 'flex';
                 
-                // Build query string
-                let url = `api/get-registrations.php?payment_status=${status}&search=${search}`;
+                let url = `../api/get-registrations.php?payment_status=${status}&search=${search}`;
                 if (dateFrom) url += `&date_from=${dateFrom}`;
                 if (dateTo) url += `&date_to=${dateTo}`;
                 
-                const response = await fetch(url);
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': 'Bearer ' + getAuthToken()
+                    }
+                });
                 const res = await response.json();
 
                 if(res.success) {
@@ -990,6 +1089,11 @@
                     updateStats(res.data);
                 } else {
                     showToast('Error fetching data: ' + res.error, 'error');
+                    
+                    // If unauthorized, redirect to login
+                    if (res.error === 'Unauthorized' || res.error === 'Invalid token') {
+                        logout();
+                    }
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -1081,13 +1185,11 @@
                 return;
             }
 
-            // Set modal content
             document.getElementById('modalName').innerText = `Payment Proof - ${regId}`;
             
-            const path = `uploads/payment_screenshots/${registration.screenshot_file}`;
+            const path = `../uploads/payment_screenshots/${registration.screenshot_file}`;
             document.getElementById('proofImg').src = path;
 
-            // Set modal details
             const modalDetails = document.getElementById('modalDetails');
             modalDetails.innerHTML = `
                 <div style="color: var(--text-secondary);">
@@ -1098,7 +1200,6 @@
                 </div>
             `;
 
-            // Set action buttons
             const actionDiv = document.getElementById('modalActions');
             actionDiv.innerHTML = '';
             
@@ -1119,7 +1220,6 @@
                 </button>
             `;
 
-            // Show modal
             document.getElementById('proofModal').style.display = 'flex';
         }
 
@@ -1130,9 +1230,13 @@
                 const formData = new FormData();
                 formData.append('registration_id', regId);
                 formData.append('status', newStatus);
+                formData.append('token', getAuthToken());
 
-                const response = await fetch('api/verify-payment.php', {
+                const response = await fetch('../api/verify-payment.php', {
                     method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + getAuthToken()
+                    },
                     body: formData
                 });
                 
@@ -1144,6 +1248,10 @@
                     fetchRegistrations();
                 } else {
                     showToast("Update failed: " + res.error, 'error');
+                    
+                    if (res.error === 'Unauthorized' || res.error === 'Invalid token') {
+                        logout();
+                    }
                 }
             } catch (error) {
                 showToast("Network error. Please try again.", 'error');
@@ -1172,22 +1280,8 @@
             }, 3000);
         }
 
-        // Initialize date inputs with today's date
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().toISOString().split('T')[0];
-            const weekAgo = new Date();
-            weekAgo.setDate(weekAgo.getDate() - 7);
-            const weekAgoStr = weekAgo.toISOString().split('T')[0];
-            
-            document.getElementById('dateFrom').value = weekAgoStr;
-            document.getElementById('dateTo').value = today;
-            
-            // Initial load
-            fetchRegistrations();
-        });
-
-        // Auto-refresh every 60 seconds
-        setInterval(fetchRegistrations, 60000);
+        // Run authentication check when page loads
+        document.addEventListener('DOMContentLoaded', checkAuth);
     </script>
 </body>
 </html>

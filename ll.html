@@ -1213,11 +1213,19 @@
             }
 
             // Display registration details with masked data
+// Display registration details with masked data
             function displayRegistrationDetails(data) {
                 const container = document.getElementById('quickResults');
                 const content = document.getElementById('quickResultsContent');
                 
                 const { registration, events, verification, next_steps } = data;
+                
+                // Remove duplicates from events arrays
+                const uniqueTechnicalEvents = [...new Set(events.technical || [])];
+                const uniqueNonTechnicalEvents = [...new Set(events.non_technical || [])];
+                
+                // Also create unique combined list if needed for other purposes
+                const uniqueAllEvents = [...new Set(events.all || [])];
                 
                 content.innerHTML = `
                     <div class="status-badge ${verification.status}">
@@ -1302,33 +1310,44 @@
                         </div>
                     </div>
                     
-                    ${events.all.length > 0 ? `
+                    ${uniqueAllEvents.length > 0 ? `
                         <div class="events-section">
                             <h3 style="color: var(--primary); margin-bottom: 15px;">
                                 <i class="fas fa-calendar-check"></i> Registered Events
+                                ${uniqueAllEvents.length !== (events.all || []).length ? 
+                                    `<span style="font-size: 0.8rem; color: var(--warning); margin-left: 10px;">
+                                        
+                                    </span>` : ''
+                                }
                             </h3>
                             
                             <div class="events-grid">
-                                ${events.technical.length > 0 ? `
+                                ${uniqueTechnicalEvents.length > 0 ? `
                                     <div class="event-type-card technical">
                                         <h4 style="color: var(--primary); margin-bottom: 10px;">
                                             <i class="fas fa-microchip"></i> Technical Events
+                                            ${uniqueTechnicalEvents.length !== (events.technical || []).length ? 
+                                                `<span style="font-size: 0.7rem; opacity: 0.7;">(Total: ${uniqueTechnicalEvents.length})</span>` : ''
+                                            }
                                         </h4>
                                         <div class="event-list">
-                                            ${events.technical.map(event => `
+                                            ${uniqueTechnicalEvents.map(event => `
                                                 <span class="event-tag technical">${event}</span>
                                             `).join('')}
                                         </div>
                                     </div>
                                 ` : ''}
                                 
-                                ${events.non_technical.length > 0 ? `
+                                ${uniqueNonTechnicalEvents.length > 0 ? `
                                     <div class="event-type-card non-technical">
                                         <h4 style="color: var(--purple); margin-bottom: 10px;">
                                             <i class="fas fa-gamepad"></i> Non-Technical Events
+                                            ${uniqueNonTechnicalEvents.length !== (events.non_technical || []).length ? 
+                                                `<span style="font-size: 0.7rem; opacity: 0.7;">(Total: ${uniqueNonTechnicalEvents.length})</span>` : ''
+                                            }
                                         </h4>
                                         <div class="event-list">
-                                            ${events.non_technical.map(event => `
+                                            ${uniqueNonTechnicalEvents.map(event => `
                                                 <span class="event-tag non-technical">${event}</span>
                                             `).join('')}
                                         </div>
@@ -1366,8 +1385,7 @@
                 // Scroll to results
                 container.scrollIntoView({ behavior: 'smooth' });
             }
-
-            // Display search results with masked data
+                        // Display search results with masked data
             function displaySearchResults(data) {
                 const container = document.getElementById('searchResults');
                 const content = document.getElementById('searchResultsContent');
